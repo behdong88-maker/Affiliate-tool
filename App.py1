@@ -1,0 +1,44 @@
+from fastapi import FastAPI, BackgroundTasks, Form
+from fastapi.responses import HTMLResponse
+from pydantic import BaseModel
+import time
+
+app = FastAPI(title="Affiliate Content AI Engine")
+
+# Model Data Input dari Dashboard HP
+class VideoRequest(BaseModel):
+    url_referensi: str
+    avatar_style: str
+    tone_bahasa: str
+
+def process_video_pipeline(url: str, avatar: str, tone: str):
+    """
+    Simulasi Pipeline Pemrosesan Video di Server Cloud:
+    1. Scrape & Transcribe video referensi (yt-dlp + Whisper AI)
+    2. Rewrite naskah dengan GPT-4o (Gaya Gaul/Santai + Hypnotic Copywriting)
+    3. Generate Avatar AI (HeyGen / D-ID API)
+    4. Rendering Video + Subtitle + BGM (FFmpeg)
+    5. Auto-Post ke TikTok & Shopee Video API
+    """
+    print(f"[1/5] Scraping link: {url}")
+    time.sleep(2)
+    print(f"[2/5] Generating script tone '{tone}'...")
+    time.sleep(2)
+    print(f"[3/5] Rendering Avatar AI '{avatar}'...")
+    time.sleep(3)
+    print(f"[4/5] Compositing video 30 detik...")
+    time.sleep(2)
+    print(f"[5/5] Success! Video diposting otomatis ke TikTok & Shopee.")
+
+@app.post("/api/generate")
+async def generate_content(
+    background_tasks: BackgroundTasks,
+    url_referensi: str = Form(...),
+    avatar_style: str = Form(...),
+    tone_bahasa: str = Form(...)
+):
+    # Jalankan pemrosesan berat di latar belakang agar HP tidak freeze
+    background_tasks.add_task(process_video_pipeline, url_referensi, avatar_style, tone_bahasa)
+    return {"status": "success", "message": "Proses pembuatan video AI telah dimulai!"}
+
+# Jalankan server dengan perintah: uvicorn app:app --reload
