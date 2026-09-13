@@ -88,7 +88,10 @@ if st.button("✨ Buat Naskah Sesuai Produk", use_container_width=True):
             """
 
             # 3. Kirim ke Groq AI
-            candidate_models = ["llama-3.3-70b-versatile", "llama-3.1-8b-instant"]
+            candidate_models = [
+                "llama-3.3-70b-versatile",
+                "llama3-70b-8192",
+                "mixtral-8x7b-32768"
             script_result = None
             last_error = None
 
